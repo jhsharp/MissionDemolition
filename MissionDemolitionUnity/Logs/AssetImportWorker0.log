@@ -228,3 +228,4 @@ Received Import Request.
 Start importing Assets/Prefabs/Projectile.prefab using Guid(919981d1091eb6a48a1f5e5c3af3bd34) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9690ab78c50291d6da69d20a64b6da55') in 0.815685 seconds 
   Import took 0.817841 seconds .
 
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file

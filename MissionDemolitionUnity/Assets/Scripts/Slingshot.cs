@@ -3,7 +3,7 @@
  * Date Created: Feb 9, 2022
  * 
  * Last Edited By: Jacob Sharp
- * Date Last Edited: Feb 9, 2022
+ * Date Last Edited: Feb 14, 2022
  * 
  * Description: Manages the slingshot and launches projectiles
  ****/
@@ -55,7 +55,9 @@ public class Slingshot : MonoBehaviour
         {
             aimingMode = false;
             projectileRB.isKinematic = false;
-            projectileRB.velocity = -mouseDelta * velocityMultiplier;
+            projectileRB.velocity = -mouseDelta * velocityMultiplier; // launch projectile
+            
+            FollowCam.target = projectile; // set camera to follow projectile
             projectile = null;
         }
     }

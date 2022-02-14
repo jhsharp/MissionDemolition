@@ -40,6 +40,34 @@ public class Cloud : MonoBehaviour
             offset.x *= sphereOffsetScale.x;
             offset.y *= sphereOffsetScale.y;
             offset.z *= sphereOffsetScale.z;
+            spTrans.localPosition = offset;
+
+            Vector3 scale = Vector3.zero; // randomly set scale
+            scale.x = Random.Range(sphereScaleRangeX.x, sphereScaleRangeX.y);
+            scale.y = Random.Range(sphereScaleRangeY.x, sphereScaleRangeY.y);
+            scale.z = Random.Range(sphereScaleRangeZ.x, sphereScaleRangeZ.y);
+
+            scale.y *= 1 - (Mathf.Abs(offset.x) / sphereOffsetScale.x); // adjust y scale based on x distance from the center
+            scale.y = Mathf.Max(scale.y, minScaleY);
+
+            spTrans.localScale = scale; // assign scale
         }
+    }
+
+    private void Update()
+    {
+        /*if (Input.GetKeyDown(KeyCode.Space)) // Reset cloud when space is pressed
+        {
+            Restart();
+        }*/
+    }
+
+    private void Restart()
+    {
+        foreach (GameObject sp in spheres) // Destroy current cloud
+        {
+            Destroy(sp);
+        }
+        Start(); // Create new cloud
     }
 }

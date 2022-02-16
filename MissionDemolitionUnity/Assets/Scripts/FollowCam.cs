@@ -3,7 +3,7 @@
  * Date Created: Feb 14, 2022
  * 
  * Last Edited By: Jacob Sharp
- * Date Last Edited: Feb 14, 2022
+ * Date Last Edited: Feb 16, 2022
  * 
  * Description: Makes camera follow the projectile
  ****/
@@ -29,9 +29,24 @@ public class FollowCam : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (target == null) return; // do nothing if there is no target to follow
+        //if (target == null) return; // do nothing if there is no target to follow
 
-        Vector3 destination = target.transform.position; // set camera to focus on target object
+        //Vector3 destination = target.transform.position; // set camera to focus on target object
+
+        Vector3 destination; // set camera to follow target if it exists
+        if (target == null) destination = Vector3.zero;
+        else
+        {
+            destination = target.transform.position;
+            if (target.tag == "Projectile")
+            {
+                if (target.GetComponent<Rigidbody>().IsSleeping()) // stop targeting projectile if it has stopped moving
+                {
+                    target = null;
+                    return;
+                }
+            }
+        }
 
         destination.x = Mathf.Max(minXY.x, destination.x); // clamp x and y
         destination.y = Mathf.Max(minXY.y, destination.y);

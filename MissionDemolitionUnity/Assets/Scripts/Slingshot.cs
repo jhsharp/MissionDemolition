@@ -3,7 +3,7 @@
  * Date Created: Feb 9, 2022
  * 
  * Last Edited By: Jacob Sharp
- * Date Last Edited: Feb 14, 2022
+ * Date Last Edited: Feb 17, 2022
  * 
  * Description: Manages the slingshot and launches projectiles
  ****/
@@ -15,6 +15,8 @@ using UnityEngine;
 
 public class Slingshot : MonoBehaviour
 {
+    private static Slingshot S;
+
     [Header("SET IN INSPECTOR")]
     public GameObject prefabProjectile;
     public float velocityMultiplier = 8f;
@@ -25,9 +27,19 @@ public class Slingshot : MonoBehaviour
     public GameObject projectile; // instance of projectile
     public Rigidbody projectileRB; // rigidbody of projectile instance
     public bool aimingMode; // indicates whether the player is currently aiming
-    
+
+    public static Vector3 LAUNCH_POS // provide launch position to other scripts
+    {
+        get
+        {
+            if (S == null) return Vector3.zero;
+            return S.launchPos;
+        }
+    }
+
     private void Awake()
     {
+        S = this;
         launchPoint = GameObject.Find("LaunchPoint"); // find child object
         launchPos = launchPoint.transform.position;
         launchPoint.SetActive(false); // deactivate halo at start
@@ -59,6 +71,9 @@ public class Slingshot : MonoBehaviour
             
             FollowCam.target = projectile; // set camera to follow projectile
             projectile = null;
+
+            MissionDemolition.ShotFired(); // notify game manager and projectile line of new projectile
+            ProjectileLine.S.poi = projectile;
         }
     }
 
